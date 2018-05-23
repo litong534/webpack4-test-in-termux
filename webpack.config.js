@@ -6,16 +6,34 @@ module.exports = {
 	entry: {entry1:'./src/index.js',entry2:'./src/print.js'},
 	output: {
 		filename: '[name].bundle.js',
-		path: path.resolve('dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
 	},
-	devServer: {
-		contentBase: './dist'
-	},
+	// devServer: {
+  //   contentBase: false,
+  //   host: 'localhost',
+  //   port: 8080,
+  //   open: true,
+  //   publicPath: '/',
+  //   historyApiFallback: {
+  //     rewrites: [
+  //       { from: /.*/, to: path.posix.join('/', 'index.html') },
+  //     ],
+  //   },
+	// },
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: './src/index.html',
-			hash: true
-		}),
+      template: './src/index.html',
+      filename: 'index.html',
+      chunks: ['common','entry1'],
+      inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/test.html',
+      chunks: ['common', 'entry2'],
+      filename: 'test.html',
+      inject: true
+    }),
 		new CleanWebpackPlugin(['dist'])
 	],
 	module: {
@@ -33,7 +51,7 @@ module.exports = {
 	optimization: {
 		splitChunks: {
 			minSize:1,
-			chunks: 'initial',
+			chunks: 'all',
 			name: 'common'
 		}
 	}

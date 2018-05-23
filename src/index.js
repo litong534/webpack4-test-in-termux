@@ -1,10 +1,7 @@
 require('./stylus/style.styl')
 const dog = require('./image/fav.jpg')
-const clickMe = h => {
-	import('./print.js').then(print => {
-		h(print)
-	})
-}
+const clickMe = () => import('./print.js')
+
 function component() {
 	var element = document.createElement('div')
 	var btn = document.createElement('button')
